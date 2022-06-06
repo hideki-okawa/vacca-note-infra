@@ -17,3 +17,7 @@ output "vpc_this_id" {
 output "db_subnet_group_name" {
   value = aws_db_subnet_group.this.name
 }
+
+output "security_group_db_app_id" {
+  value = aws_security_group.db_app.id
+}

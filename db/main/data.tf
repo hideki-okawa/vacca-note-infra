@@ -7,3 +7,7 @@ data "terraform_remote_state" "network_main" {
     region = "ap-northeast-1"
   }
 }
+
+data "aws_kms_alias" "rds" {
+  name = "alias/aws/rds"
+}

@@ -35,26 +35,15 @@ resource "aws_lb_listener" "https" {
   protocol          = "HTTPS"
   ssl_policy        = "ELBSecurityPolicy-2016-08"
 
-  # default_action {
-  #   type = "forward"
+  default_action {
+    type = "forward"
 
-  #   target_group_arn = aws_lb_target_group.this.arn
-  # }
-  
+    target_group_arn = aws_lb_target_group.this.arn
+  }
+
   depends_on = [
     aws_acm_certificate_validation.root
   ]
-
-  default_action {
-    # 固定のレスポンスを返す
-    type = "fixed-response"
-
-    fixed_response {
-      content_type = "text/plain"
-      message_body = "Fixed vacca-note response content"
-      status_code  = "200"
-    }
-  }
 }
 
 resource "aws_lb_listener" "redirect_http_to_https" {

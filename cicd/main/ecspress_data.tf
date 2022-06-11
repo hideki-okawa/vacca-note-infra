@@ -33,3 +33,7 @@ data "aws_iam_role" "ecs_task_execution" {
 data "aws_cloudwatch_log_group" "app" {
    name = "/ecs/${local.system_name}/app"
 }
+
+data "aws_db_instance" "this" {
+   db_instance_identifier = "${local.system_name}"
+}

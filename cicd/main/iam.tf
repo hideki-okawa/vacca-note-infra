@@ -53,8 +53,29 @@ resource "aws_iam_role_policy" "s3" {
           ],
           "Resource" : [
               "arn:aws:s3:::okawa-tfstate/${local.system_name}/cicd/main.tfstate",
-              "arn:aws:s3:::vacca-note-view"
+              "arn:aws:s3:::vacca-note-view/*"
           ]
+        },
+      ]
+    }
+  )
+}
+
+resource "aws_iam_role_policy" "cloudfront" {
+  name = "cloudfront"
+  role = aws_iam_role.deployer.id
+
+  policy = jsonencode(
+    {
+      "Version" : "2012-10-17",
+      "Statement" : [
+        {
+            "Effect": "Allow",
+            "Action": [
+               "cloudfront:ListDistributions",
+               "cloudfront:CreateInvalidation",
+            ]
+            "Resource": "*"
         },
       ]
     }

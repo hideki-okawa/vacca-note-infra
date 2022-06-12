@@ -1,5 +1,5 @@
 resource "aws_route53_zone" "this" {
-  name = "api.${local.domain_name}"
+  name = local.domain_name
 }
 
 resource "aws_route53_record" "certificate_validation" {
@@ -21,7 +21,7 @@ resource "aws_route53_record" "certificate_validation" {
 resource "aws_route53_record" "root_a" {
   count = 1
 
-  name    = aws_route53_zone.this.name
+  name    = "api.${aws_route53_zone.this.name}"
   type    = "A"
   zone_id = aws_route53_zone.this.zone_id
 

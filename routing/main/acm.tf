@@ -1,5 +1,5 @@
 resource "aws_acm_certificate" "root" {
-  domain_name = aws_route53_zone.this.name
+  domain_name = "api.${aws_route53_zone.this.name}"
 
   validation_method = "DNS"
 

@@ -6,6 +6,10 @@ data "aws_security_group" "vpc" {
   name = "${local.system_name}-main-vpc"
 }
 
+data "aws_security_group" "db_app" {
+  name = "${local.system_name}-main-db-app"
+}
+
 data "aws_subnet" "private_a" {
   tags = {
     Name = "${local.system_name}-main-private-a"

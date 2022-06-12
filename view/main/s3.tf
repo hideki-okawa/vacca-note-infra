@@ -17,7 +17,7 @@ data "aws_iam_policy_document" "static-www" {
     effect = "Allow"
     principals {
         type = "AWS"
-        identifiers = [aws_cloudfront_origin_access_identity.static-www.iam_arn]
+        identifiers = [data.terraform_remote_state.routing_main.outputs.aws_cloudfront_origin_access_identity_static-www.iam_arn]
     }
     actions = [
         "s3:GetObject"

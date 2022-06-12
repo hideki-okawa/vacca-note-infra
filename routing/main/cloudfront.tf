@@ -1,7 +1,7 @@
 resource "aws_cloudfront_distribution" "this" {
   origin {
-    domain_name = aws_s3_bucket.this.bucket_regional_domain_name
-    origin_id   = aws_s3_bucket.this.id
+    domain_name = data.terraform_remote_state.view_main.outputs.aws_s3_bucket_this.bucket_regional_domain_name
+    origin_id   = data.terraform_remote_state.view_main.outputs.aws_s3_bucket_this.id
 
     s3_origin_config {
       origin_access_identity = aws_cloudfront_origin_access_identity.static-www.cloudfront_access_identity_path
@@ -11,10 +11,12 @@ resource "aws_cloudfront_distribution" "this" {
   enabled             = true
   default_root_object = "index.html"
 
+  aliases = ["www.vacca-note.com"]
+
   default_cache_behavior {
     allowed_methods  = ["GET", "HEAD"]
     cached_methods   = ["GET", "HEAD"]
-    target_origin_id = aws_s3_bucket.this.id
+    target_origin_id = data.terraform_remote_state.view_main.outputs.aws_s3_bucket_this.id
 
     forwarded_values {
       query_string = false
@@ -42,7 +44,10 @@ resource "aws_cloudfront_distribution" "this" {
   }
 
   viewer_certificate {
-    cloudfront_default_certificate = true
+    cloudfront_default_certificate = false
+    acm_certificate_arn = aws_acm_certificate.www.arn
+    minimum_protocol_version       = "TLSv1"
+    ssl_support_method             = "sni-only"
   }
 }
 
